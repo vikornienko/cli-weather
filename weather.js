@@ -1,6 +1,7 @@
 #!/usr/bin/node
 import { getArgs } from './helpers/args.js';
 import { printHelp } from './services/log.service.js';
+import { saveKeyValue } from './services/storage.service.js';
 
 const initCLI = () => {
     const userArgs = getArgs(process.argv)
@@ -14,6 +15,7 @@ const initCLI = () => {
     }
     if (userArgs.t) {
         // Сохранить пользовательский токен.
+        saveKeyValue('token', userArgs.t);
     }
     // Показать погоду.
 };
