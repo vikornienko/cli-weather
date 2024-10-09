@@ -4,9 +4,14 @@ import { printHelp, printError, printSuccess } from './services/log.service.js';
 import { saveKeyValue } from './services/storage.service.js';
 
 const saveToken = async (token) => {
+    if (!token.length) {
+        printError('Токен не передан! Укажите корректный токен.');
+        return;
+    }
     try {
         await saveKeyValue('token', token);
-        printSuccess('Токен был сохранен.')
+        printSuccess('Токен был сохранен.');
+        
     } catch (e) {
         printError(e.message);
     }
@@ -24,7 +29,7 @@ const initCLI = () => {
     }
     if (userArgs.t) {
         // Сохранить пользовательский токен.
-        return saveToken('token', userArgs.t);
+        return saveToken(userArgs.t);
     }
     // Показать погоду.
 };
