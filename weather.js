@@ -1,7 +1,16 @@
 #!/usr/bin/node
 import { getArgs } from './helpers/args.js';
-import { printHelp } from './services/log.service.js';
+import { printHelp, printError, printSuccess } from './services/log.service.js';
 import { saveKeyValue } from './services/storage.service.js';
+
+const saveToken = async (token) => {
+    try {
+        await saveKeyValue('token', token);
+        printSuccess('Токен был сохранен.')
+    } catch (e) {
+        printError(e.message);
+    }
+}
 
 const initCLI = () => {
     const userArgs = getArgs(process.argv)
@@ -15,7 +24,7 @@ const initCLI = () => {
     }
     if (userArgs.t) {
         // Сохранить пользовательский токен.
-        saveKeyValue('token', userArgs.t);
+        return saveToken('token', userArgs.t);
     }
     // Показать погоду.
 };
