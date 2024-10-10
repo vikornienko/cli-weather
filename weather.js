@@ -1,7 +1,9 @@
 #!/usr/bin/node
 import { getArgs } from './helpers/args.js';
+import { getForecastInfo } from './services/api.service.js';
 import { printHelp, printError, printSuccess } from './services/log.service.js';
-import { saveKeyValue } from './services/storage.service.js';
+import { saveKeyValue, TOKEN_DICTIONARY } from './services/storage.service.js';
+
 
 const saveToken = async (token) => {
     if (!token.length) {
@@ -9,7 +11,7 @@ const saveToken = async (token) => {
         return;
     }
     try {
-        await saveKeyValue('token', token);
+        await saveKeyValue(TOKEN_DICTIONARY.token, token);
         printSuccess('Токен был сохранен.');
         
     } catch (e) {
@@ -31,6 +33,7 @@ const initCLI = () => {
         // Сохранить пользовательский токен.
         return saveToken(userArgs.t);
     }
+    getForecastInfo('yekaterinburg');
     // Показать погоду.
 };
 
